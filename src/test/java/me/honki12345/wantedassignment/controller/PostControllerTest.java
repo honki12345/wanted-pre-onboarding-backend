@@ -1,16 +1,13 @@
 package me.honki12345.wantedassignment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.honki12345.wantedassignment.domain.Member;
 import me.honki12345.wantedassignment.dto.PostDTO;
 import me.honki12345.wantedassignment.service.PostService;
-import org.hibernate.dialect.TiDBDialect;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,7 +16,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -40,13 +39,9 @@ class PostControllerTest {
     @Test
     void create() throws Exception {
         // given
-        String email = "aaaa@naver.com";
-        String pwd = "1234";
-        Member member = Member.builder().email(email).pwd(pwd).build();
-
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content, member);
+        PostDTO postDTO = PostDTO.of(title, content);
 
         String requestBody = objectMapper.writeValueAsString(postDTO);
         doNothing().when(postService).create(postDTO);
@@ -65,17 +60,13 @@ class PostControllerTest {
     @Test
     void test() throws Exception {
         // given
-        String email = "aaaa@naver.com";
-        String pwd = "1234";
-        Member member = Member.builder().email(email).pwd(pwd).build();
-
         String title1 = "title1";
         String content1 = "content1";
-        PostDTO postDTO1 = PostDTO.of(title1, content1, member);
+        PostDTO postDTO1 = PostDTO.of(title1, content1);
 
         String title2 = "title2";
         String content2 = "content2";
-        PostDTO postDTO2 = PostDTO.of(title2, content2, member);
+        PostDTO postDTO2 = PostDTO.of(title2, content2);
 
         when(postService.list()).thenReturn(List.of(postDTO1, postDTO2));
 
@@ -98,7 +89,7 @@ class PostControllerTest {
 
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content, null);
+        PostDTO postDTO = PostDTO.of(title, content);
 
         when(postService.get(postId)).thenReturn(postDTO);
 
@@ -110,5 +101,47 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value(postDTO.title()))
                 .andExpect(jsonPath("$.content").value(postDTO.content()));
+    }
+
+    @DisplayName("게시글 수정을 성공한다")
+    @Test
+    void update() throws Exception {
+        // TODO 사용자인증
+        // given
+        long postId = 1L;
+
+        String title = "title1";
+        String content = "content1";
+        PostDTO postDTO = PostDTO.of(title, content);
+
+        String requestBody = objectMapper.writeValueAsString(postDTO);
+
+        doNothing().when(postService).update(postId, postDTO);
+
+        // when // then
+        mockMvc.perform(
+                        patch("/posts/{id}", postId)
+                                .content(requestBody)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @DisplayName("게시글 삭제에 성공한다")
+    @Test
+    void deletePost() throws Exception {
+        // TODO 사용자인증
+        // given
+        long postId = 1L;
+
+        doNothing().when(postService).delete(postId);
+
+        // when // then
+        mockMvc.perform(
+                        delete("/posts/{id}", postId)
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 }
