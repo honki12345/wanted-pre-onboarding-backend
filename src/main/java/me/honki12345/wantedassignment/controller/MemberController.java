@@ -18,6 +18,7 @@ public class MemberController {
 
     @PostMapping
     public ResponseEntity<Object> join(@RequestBody MemberDTO memberDTO) {
+        // TODO 유효성 검사 및 암호화로직
         memberService.join(memberDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
