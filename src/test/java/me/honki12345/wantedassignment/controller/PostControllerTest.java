@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -87,5 +88,27 @@ class PostControllerTest {
                 .andExpect(jsonPath("$[0].content").value(postDTO1.content()))
                 .andExpect(jsonPath("$[1].title").value(postDTO2.title()))
                 .andExpect(jsonPath("$[1].title").value(postDTO2.title()));
+    }
+
+    @DisplayName("게시글 조회를 성공한다")
+    @Test
+    void getPost() throws Exception {
+        // given
+        long postId = 1L;
+
+        String title = "title1";
+        String content = "content1";
+        PostDTO postDTO = PostDTO.of(title, content, null);
+
+        when(postService.get(postId)).thenReturn(postDTO);
+
+        // when // then
+        mockMvc.perform(
+                        get("/posts/{id}", postId)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(postDTO.title()))
+                .andExpect(jsonPath("$.content").value(postDTO.content()));
     }
 }
