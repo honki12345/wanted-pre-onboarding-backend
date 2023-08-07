@@ -5,10 +5,13 @@ import me.honki12345.wantedassignment.dto.PostDTO;
 import me.honki12345.wantedassignment.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -22,4 +25,10 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<PostDTO>> list() {
+        // TODO 페이지네이션
+        List<PostDTO> postDTOs = postService.list();
+        return new ResponseEntity<>(postDTOs, HttpStatus.OK);
+    }
 }
