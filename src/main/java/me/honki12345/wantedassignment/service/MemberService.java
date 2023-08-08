@@ -19,4 +19,9 @@ public class MemberService {
                 .pwd(bCryptPasswordEncoder.encode(memberDTO.pwd()))
                 .build());
     }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Unexpected user"));
+    }
 }
