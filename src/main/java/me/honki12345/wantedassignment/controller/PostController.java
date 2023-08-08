@@ -24,6 +24,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody PostDTO postDTO) {
+        // TODO 생성된 post 반납
         postService.create(postDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -46,7 +47,7 @@ public class PostController {
             @PathVariable Long id,
             @RequestBody PostDTO postDTO
     ) {
-        // TODO 사용자 검증
+        // TODO 사용자 검증 & 변경된 포스트 반납
         postService.update(id, postDTO);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
