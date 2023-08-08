@@ -1,6 +1,7 @@
 package me.honki12345.wantedassignment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.honki12345.wantedassignment.config.WebSecurityConfig;
 import me.honki12345.wantedassignment.dto.PostDTO;
 import me.honki12345.wantedassignment.service.PostService;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {PostController.class})
+@Import({WebSecurityConfig.class})
 class PostControllerTest {
     @Autowired
     MockMvc mockMvc;
