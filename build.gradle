@@ -44,6 +44,8 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	// configuration-processor
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+	// gson
+	implementation 'com.google.code.gson:gson:2.10.1'
 
 	// h2
 	runtimeOnly 'com.h2database:h2'
