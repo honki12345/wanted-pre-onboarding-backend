@@ -44,8 +44,10 @@ public class WebSecurityConfig {
         // LoginFilter
         LoginFilter loginFilter = new LoginFilter(antMatcher(HttpMethod.POST, "/session"));
         loginFilter.setAuthenticationManager(authenticationManager);
+        // LoginSuccessHandler
+        LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler();
+        loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
         http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
-
 
         // authorizeHttpRequests
         http.authorizeHttpRequests((auth) -> auth
