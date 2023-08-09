@@ -3,6 +3,7 @@ logging:
   level:
     me.honki12345.wantedassignment: debug
     org.springframework.web.server: debug
+    org.springframework.security: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
     org.hibernate.orm.jdbc.bind: trace
 spring:
