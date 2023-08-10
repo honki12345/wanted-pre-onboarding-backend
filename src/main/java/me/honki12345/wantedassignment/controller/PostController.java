@@ -23,10 +23,9 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestBody PostDTO postDTO) {
-        // TODO 생성된 post 반납
-        postService.create(postDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<PostDTO> create(@RequestBody PostDTO postDTO) {
+        PostDTO savedPostDTO = postService.create(postDTO);
+        return new ResponseEntity<>(savedPostDTO, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -43,13 +42,12 @@ public class PostController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Object> update(
+    public ResponseEntity<PostDTO> update(
             @PathVariable Long id,
             @RequestBody PostDTO postDTO
     ) {
-        // TODO 사용자 검증 & 변경된 포스트 반납
-        postService.update(id, postDTO);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        PostDTO updatedDTO = postService.update(id, postDTO);
+        return new ResponseEntity<>(updatedDTO, HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
