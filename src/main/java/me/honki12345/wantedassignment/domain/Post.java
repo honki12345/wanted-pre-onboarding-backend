@@ -8,8 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import me.honki12345.wantedassignment.dto.PostDTO;
 
 import java.util.Objects;
 
@@ -27,12 +29,16 @@ public class Post {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String author;
-
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
+
+    @Builder
+    private Post(String title, String content, Member member) {
+        this.title = title;
+        this.content = content;
+        this.member = member;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -44,5 +50,10 @@ public class Post {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void update(PostDTO postDTO) {
+        this.title = postDTO.title();
+        this.content = postDTO.content();
     }
 }
