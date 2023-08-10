@@ -13,7 +13,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     show-sql: true
     properties:
       hibernate:
@@ -22,6 +22,12 @@ spring:
   sql:
     init:
       mode: always
+
+me.honki12345.jwt.header: Authorization
+    #HS512 알고리즘
+    #echo 'wanted-assignment-wanted-assignment-wanted-assignment-wanted-assignment-wanted-assignment' | base64
+me.honki12345.jwt.secret: d2FudGVkLWFzc2lnbm1lbnQtd2FudGVkLWFzc2lnbm1lbnQtd2FudGVkLWFzc2lnbm1lbnQtd2FudGVkLWFzc2lnbm1lbnQtd2FudGVkLWFzc2lnbm1lbnQK
+me.honki12345.jwt.token-validity-in-seconds: 86400
 
 ---
 
