@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                 .requestMatchers(antMatcher("/favicon.ico")).permitAll()
                 .requestMatchers(antMatcher(HttpMethod.PATCH, "/posts/*")).authenticated()
+                .requestMatchers(antMatcher(HttpMethod.POST, "/posts")).authenticated()
                 .requestMatchers(antMatcher(HttpMethod.DELETE, "/posts/*")).authenticated()
                 .anyRequest().permitAll()
         );
