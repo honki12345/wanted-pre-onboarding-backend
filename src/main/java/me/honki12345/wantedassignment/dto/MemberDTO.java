@@ -29,7 +29,7 @@ public record MemberDTO(
         }
 
         return new MemberDTO(
-                null,
+                member.getId(),
                 member.getEmail(),
                 member.getPwd(),
                 member.getAuthorities().stream()
