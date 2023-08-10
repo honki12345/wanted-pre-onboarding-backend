@@ -49,7 +49,8 @@ public class PostController {
     ) {
         // TODO 사용자 검증 & 변경된 포스트 반납
         postService.update(id, postDTO);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @DeleteMapping("/{id}")
