@@ -16,7 +16,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtFilter extends GenericFilterBean {
     public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String HEADER_VALIDATION = "Bearer ";
+    public static final String AUTHORIZATION_PREFIX = "Bearer ";
     private final TokenProvider tokenProvider;
 
     public JwtFilter(TokenProvider tokenProvider) {
@@ -45,7 +45,7 @@ public class JwtFilter extends GenericFilterBean {
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(HEADER_VALIDATION)) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(AUTHORIZATION_PREFIX)) {
             bearerToken.substring(7);
         }
 
