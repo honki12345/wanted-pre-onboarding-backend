@@ -27,6 +27,7 @@ spring:
       mode: always
 
 me.honki12345.jwt.secret: wanted-assignment
+me.honki12345.jwt.issuer: iui4793@gmail.com
 
 ---
 
