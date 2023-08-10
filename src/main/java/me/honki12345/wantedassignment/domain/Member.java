@@ -38,9 +38,12 @@ public class Member {
     private Set<Authority> authorities;
 
     @Builder
-    private Member(String email, String pwd) {
+    private Member(String email,
+                   String pwd,
+                   Set<Authority> authorities) {
         this.email = email;
         this.pwd = pwd;
+        this.authorities = authorities;
     }
 
     @Override
