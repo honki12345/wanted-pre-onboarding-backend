@@ -1,9 +1,12 @@
 package me.honki12345.wantedassignment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.honki12345.wantedassignment.config.security.JWTUtil;
 import me.honki12345.wantedassignment.config.security.WebSecurityConfig;
 import me.honki12345.wantedassignment.dto.MemberDTO;
+import me.honki12345.wantedassignment.repository.MemberRepository;
 import me.honki12345.wantedassignment.service.MemberService;
+import me.honki12345.wantedassignment.service.UserDetailService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +24,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {MemberController.class})
-@Import(WebSecurityConfig.class)
+@Import({WebSecurityConfig.class,
+        JWTUtil.class,
+        UserDetailService.class})
 class MemberControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -31,6 +36,9 @@ class MemberControllerTest {
 
     @MockBean
     MemberService memberService;
+
+    @MockBean
+    MemberRepository memberRepository;
 
     String emailErrorMessage = "이메일 형식이 올바르지 않습니다";
     String pwdErrorMessage = "비밀번호 형식이 올바르지 않습니다";
@@ -99,6 +107,7 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.message").value(pwdErrorMessage))
                 .andExpect(jsonPath("$.code").value("COMMON-001"));
     }
+
     @DisplayName("회원가입 요청의 이메일과 비밀번호 둘 다 값이 올바르지 않아 예외가 발생한다")
     @Test
     void joinException3() throws Exception {

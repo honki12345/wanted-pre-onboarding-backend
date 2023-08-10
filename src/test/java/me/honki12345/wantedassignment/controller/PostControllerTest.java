@@ -1,9 +1,12 @@
 package me.honki12345.wantedassignment.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.honki12345.wantedassignment.config.security.JWTUtil;
 import me.honki12345.wantedassignment.config.security.WebSecurityConfig;
 import me.honki12345.wantedassignment.dto.PostDTO;
+import me.honki12345.wantedassignment.repository.MemberRepository;
 import me.honki12345.wantedassignment.service.PostService;
+import me.honki12345.wantedassignment.service.UserDetailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = {PostController.class})
-@Import(WebSecurityConfig.class)
+@Import({WebSecurityConfig.class,
+        JWTUtil.class,
+        UserDetailService.class})
 class PostControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -36,6 +41,9 @@ class PostControllerTest {
 
     @MockBean
     PostService postService;
+
+    @MockBean
+    MemberRepository memberRepository;
 
     @DisplayName("게시글 생성을 성공한다")
     @Test
@@ -77,10 +85,10 @@ class PostControllerTest {
         mockMvc.perform(get("/posts"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].title").value(postDTO1.title()))
-                .andExpect(jsonPath("$[0].content").value(postDTO1.content()))
-                .andExpect(jsonPath("$[1].title").value(postDTO2.title()))
-                .andExpect(jsonPath("$[1].title").value(postDTO2.title()));
+                .andExpect(jsonPath("$[0].title").value(postDTO1.getTitle()))
+                .andExpect(jsonPath("$[0].content").value(postDTO1.getContent()))
+                .andExpect(jsonPath("$[1].title").value(postDTO2.getTitle()))
+                .andExpect(jsonPath("$[1].title").value(postDTO2.getTitle()));
     }
 
     @DisplayName("게시글 조회를 성공한다")
@@ -101,8 +109,8 @@ class PostControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value(postDTO.title()))
-                .andExpect(jsonPath("$.content").value(postDTO.content()));
+                .andExpect(jsonPath("$.title").value(postDTO.getTitle()))
+                .andExpect(jsonPath("$.content").value(postDTO.getContent()));
     }
 
     @DisplayName("게시글 수정을 성공한다")
