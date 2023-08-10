@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -21,6 +20,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 @Configuration
 public class WebSecurityConfig {
     private final UserDetailsService userDetailsService;
+    private final JWTUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -45,9 +45,12 @@ public class WebSecurityConfig {
         LoginFilter loginFilter = new LoginFilter(antMatcher(HttpMethod.POST, "/session"));
         loginFilter.setAuthenticationManager(authenticationManager);
         // LoginSuccessHandler
-        LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler();
+        LoginSuccessHandler loginSuccessHandler = new LoginSuccessHandler(jwtUtil);
         loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler);
         http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(tokenCheckFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        // TODO path 수정
+        http.addFilterBefore(new RefreshTokenFilter("/refreshToken", jwtUtil), TokenCheckFilter.class);
 
         // authorizeHttpRequests
         http.authorizeHttpRequests((auth) -> auth
@@ -55,8 +58,10 @@ public class WebSecurityConfig {
 
                 // TODO hasRole() 통과하는지 테스트해보기
 //                                .requestMatchers(antMatcher(HttpMethod.PATCH, "posts/*")).hasRole("USER")
+/*
                 .requestMatchers(antMatcher(HttpMethod.PATCH, "/posts/*")).authenticated()
                 .requestMatchers(antMatcher(HttpMethod.DELETE, "/posts/*")).authenticated()
+*/
                 .anyRequest().permitAll());
 
         http.httpBasic().disable()
@@ -83,5 +88,9 @@ public class WebSecurityConfig {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil) {
+        return new TokenCheckFilter(jwtUtil);
     }
 }
