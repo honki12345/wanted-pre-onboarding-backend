@@ -46,7 +46,7 @@ public class JwtFilter extends GenericFilterBean {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(AUTHORIZATION_PREFIX)) {
-            bearerToken.substring(7);
+            return bearerToken.substring(7);
         }
 
         return null;
