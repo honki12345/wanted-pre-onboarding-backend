@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
     INVALID_INPUT_VALUE("올바르지 않은 입력값입니다.", "COMMON-001", HttpStatus.BAD_REQUEST),
-    NOT_FOUND("해당 값은 존재하지 않습니다", "COMMON-002", HttpStatus.NOT_FOUND);
+    NOT_FOUND("해당 값은 존재하지 않습니다", "COMMON-002", HttpStatus.NOT_FOUND),
+    NOT_AUTHORIZED("권한이 없습니다", "COMMON-003", HttpStatus.FORBIDDEN);
 
     private final String message;
     private final String code;
