@@ -1,7 +1,7 @@
 package me.honki12345.wantedassignment.controller;
 
-import me.honki12345.wantedassignment.exception.ErrorCode;
-import me.honki12345.wantedassignment.exception.ErrorResponse;
+import me.honki12345.wantedassignment.common.ErrorCode;
+import me.honki12345.wantedassignment.common.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

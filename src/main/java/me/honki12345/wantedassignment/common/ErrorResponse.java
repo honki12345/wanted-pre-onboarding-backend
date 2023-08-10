@@ -1,4 +1,4 @@
-package me.honki12345.wantedassignment.exception;
+package me.honki12345.wantedassignment.common;
 
 import lombok.AccessLevel;
 import lombok.Getter;
