@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -52,7 +51,7 @@ class MemberControllerTest {
         String pwd = "1234888888";
         MemberDTO memberDTO = MemberDTO.of(email, pwd);
         String requestBody = objectMapper.writeValueAsString(memberDTO);
-        doNothing().when(memberService).join(memberDTO);
+        doNothing().when(memberService).signup(memberDTO);
 
         // when // then
         mockMvc.perform(
@@ -72,7 +71,7 @@ class MemberControllerTest {
         String pwd = "1234888888";
         MemberDTO memberDTO = MemberDTO.of(wrongEmail, pwd);
         String requestBody = objectMapper.writeValueAsString(memberDTO);
-        doNothing().when(memberService).join(memberDTO);
+        doNothing().when(memberService).signup(memberDTO);
 //        String errorMessage = "이메일 형식이 올바르지 않습니다";
 
         // when // then
@@ -95,7 +94,7 @@ class MemberControllerTest {
         String wrongPwd = "188";
         MemberDTO memberDTO = MemberDTO.of(email, wrongPwd);
         String requestBody = objectMapper.writeValueAsString(memberDTO);
-        doNothing().when(memberService).join(memberDTO);
+        doNothing().when(memberService).signup(memberDTO);
 
         // when // then
         mockMvc.perform(
@@ -116,7 +115,7 @@ class MemberControllerTest {
         String wrongPwd = "188";
         MemberDTO memberDTO = MemberDTO.of(wrongEmail, wrongPwd);
         String requestBody = objectMapper.writeValueAsString(memberDTO);
-        doNothing().when(memberService).join(memberDTO);
+        doNothing().when(memberService).signup(memberDTO);
 
         // when // then
         mockMvc.perform(
