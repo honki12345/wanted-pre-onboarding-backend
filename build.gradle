@@ -22,28 +22,36 @@ repositories {
 }
 
 dependencies {
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// jpa
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
 	// web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
 	// validation
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// jpa
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// h2
+	runtimeOnly 'com.h2database:h2'
+	// mysql driver
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	// test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// jjwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
 
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.projectlombok:lombok'
 	// devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-	// h2
-	runtimeOnly 'com.h2database:h2'
-
-	// mysql driver
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	// configuration-processor
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {

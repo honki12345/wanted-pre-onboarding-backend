@@ -18,8 +18,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<Object> join(@Validated @RequestBody MemberDTO memberDTO) {
-        memberService.join(memberDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<MemberDTO> signup(@Validated @RequestBody MemberDTO memberDTO) {
+        MemberDTO savedMemberDTO
+                = memberService.signup(memberDTO);
+        return new ResponseEntity<>(savedMemberDTO, HttpStatus.CREATED);
     }
 }
