@@ -3,9 +3,13 @@ package me.honki12345.wantedassignment.service;
 import me.honki12345.wantedassignment.common.MemberNotFoundException;
 import me.honki12345.wantedassignment.common.NotAuthorizedException;
 import me.honki12345.wantedassignment.common.PostNotFoundException;
+import me.honki12345.wantedassignment.controller.dto.PostCreateRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.PostCreateResponseDTO;
+import me.honki12345.wantedassignment.controller.dto.PostGetResponseDTO;
+import me.honki12345.wantedassignment.controller.dto.PostUpdateRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.PostUpdateResponseDTO;
 import me.honki12345.wantedassignment.domain.Member;
 import me.honki12345.wantedassignment.domain.Post;
-import me.honki12345.wantedassignment.dto.PostDTO;
 import me.honki12345.wantedassignment.repository.MemberRepository;
 import me.honki12345.wantedassignment.repository.PostRepository;
 import org.assertj.core.api.Assertions;
@@ -44,10 +48,9 @@ class PostServiceTest {
 
     @BeforeEach
     void setUp() {
-        String email = USER_NAME;
         String pwd = "pwd";
         member = Member.builder()
-                .email(email)
+                .email(USER_NAME)
                 .pwd(pwd)
                 .build();
 
@@ -67,13 +70,16 @@ class PostServiceTest {
         // given
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content);
+        PostCreateRequestDTO requestDTO = PostCreateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
         // when
-        PostDTO savedPostDTO = postService.create(postDTO);
+        PostCreateResponseDTO responseDTO = postService.create(requestDTO);
 
         // then
-        Assertions.assertThat(savedPostDTO)
+        Assertions.assertThat(responseDTO)
                 .hasFieldOrPropertyWithValue("title", title)
                 .hasFieldOrPropertyWithValue("content", content)
                 .hasFieldOrPropertyWithValue("author", USER_NAME)
@@ -87,19 +93,19 @@ class PostServiceTest {
         // given
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content);
+        PostCreateRequestDTO requestDTO = PostCreateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
         // when // then
-        assertThrows(MemberNotFoundException.class, () -> postService.create(postDTO));
+        assertThrows(MemberNotFoundException.class, () -> postService.create(requestDTO));
     }
 
     @DisplayName("게시물 목록조회를 성공한다")
     @Test
     void list() {
         // given
-        String email = "aaa@bbb.com";
-        String pwd = "pwd";
-
         Post post1 = Post.builder()
                 .title("title1")
                 .content("content1")
@@ -119,10 +125,12 @@ class PostServiceTest {
         PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("id"));
 
         // when
-        List<PostDTO> list = postService.list(pageRequest);
+        List<PostGetResponseDTO> list = postService.list(pageRequest);
 
         // then
-        Assertions.assertThat(list).contains(PostDTO.from(post1), PostDTO.from(post2));
+        Assertions.assertThat(list).contains(
+                PostGetResponseDTO.from(post1),
+                PostGetResponseDTO.from(post2));
     }
 
     @DisplayName("게시글 상세조회에 성공한다")
@@ -145,8 +153,8 @@ class PostServiceTest {
         Post savedPost2 = postRepository.saveAndFlush(post2);
 
         // when
-        PostDTO post1DTO = postService.get(savedPost1.getId());
-        PostDTO post2DTO = postService.get(savedPost2.getId());
+        PostGetResponseDTO post1DTO = postService.get(savedPost1.getId());
+        PostGetResponseDTO post2DTO = postService.get(savedPost2.getId());
 
         // then
         Assertions.assertThat(post1DTO)
@@ -179,18 +187,21 @@ class PostServiceTest {
                 .build();
         Post savedPost = postRepository.saveAndFlush(post);
 
-        String title = "1title";
-        String content = "1content";
-        PostDTO postDTO = PostDTO.of(title, content);
+        String title = "title1";
+        String content = "content1";
+        PostUpdateRequestDTO requestDTO = PostUpdateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
         // when
-        PostDTO updatedPostDTO = postService.update(savedPost.getId(), postDTO);
+        PostUpdateResponseDTO responseDTO = postService.update(savedPost.getId(), requestDTO);
 
         // then
-        Assertions.assertThat(updatedPostDTO)
+        Assertions.assertThat(responseDTO)
                 .hasFieldOrPropertyWithValue("id", savedPost.getId())
-                .hasFieldOrPropertyWithValue("title", postDTO.title())
-                .hasFieldOrPropertyWithValue("content", postDTO.content())
+                .hasFieldOrPropertyWithValue("title", requestDTO.title())
+                .hasFieldOrPropertyWithValue("content", requestDTO.content())
                 .hasFieldOrPropertyWithValue("author", USER_NAME);
     }
 
@@ -206,12 +217,15 @@ class PostServiceTest {
                 .build();
         Post savedPost = postRepository.saveAndFlush(post);
 
-        String title = "1title";
-        String content = "1content";
-        PostDTO postDTO = PostDTO.of(title, content);
+        String title = "title1";
+        String content = "content1";
+        PostUpdateRequestDTO requestDTO = PostUpdateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
         // when // then
-        assertThrows(NotAuthorizedException.class, () -> postService.update(savedPost.getId(), postDTO));
+        assertThrows(NotAuthorizedException.class, () -> postService.update(savedPost.getId(), requestDTO));
     }
 
     @DisplayName("게시물 수정시 게시글이 존재하지 않아 예외를 반환한다")
@@ -220,12 +234,15 @@ class PostServiceTest {
         // given
         Long postId = 1L;
 
-        String title = "1title";
-        String content = "1content";
-        PostDTO postDTO = PostDTO.of(title, content);
+        String title = "title1";
+        String content = "content1";
+        PostUpdateRequestDTO requestDTO = PostUpdateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
         // when // then
-        assertThrows(PostNotFoundException.class, () -> postService.update(postId, postDTO));
+        assertThrows(PostNotFoundException.class, () -> postService.update(postId, requestDTO));
     }
 
     // TODO 삭제 테스트
