@@ -1,7 +1,8 @@
 package me.honki12345.wantedassignment.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.honki12345.wantedassignment.dto.MemberDTO;
+import me.honki12345.wantedassignment.controller.dto.SignupRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.SignupResponseDTO;
 import me.honki12345.wantedassignment.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<MemberDTO> signup(@Validated @RequestBody MemberDTO memberDTO) {
-        MemberDTO savedMemberDTO
-                = memberService.signup(memberDTO);
-        return new ResponseEntity<>(savedMemberDTO, HttpStatus.CREATED);
+    public ResponseEntity<SignupResponseDTO> signup(@Validated @RequestBody SignupRequestDTO requestDTO) {
+        SignupResponseDTO responseDTO
+                = memberService.signup(requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 }
