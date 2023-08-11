@@ -1,7 +1,7 @@
 package me.honki12345.wantedassignment.service;
 
 import lombok.RequiredArgsConstructor;
-import me.honki12345.wantedassignment.common.SecurityUtil;
+import me.honki12345.wantedassignment.common.DuplicateEmailException;
 import me.honki12345.wantedassignment.domain.Authority;
 import me.honki12345.wantedassignment.domain.Member;
 import me.honki12345.wantedassignment.dto.MemberDTO;
@@ -20,10 +20,9 @@ public class MemberService {
 
     @Transactional
     public MemberDTO signup(MemberDTO memberDTO) {
-        // TODO
         if (memberRepository.findOneWithAuthoritiesByEmail(memberDTO.email())
                 .orElse(null) != null) {
-            throw new RuntimeException();
+            throw new DuplicateEmailException();
         }
 
         Authority authority = Authority.builder()
