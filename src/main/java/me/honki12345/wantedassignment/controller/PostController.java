@@ -3,6 +3,8 @@ package me.honki12345.wantedassignment.controller;
 import lombok.RequiredArgsConstructor;
 import me.honki12345.wantedassignment.dto.PostDTO;
 import me.honki12345.wantedassignment.service.PostService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,9 +31,10 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> list() {
-        // TODO 페이지네이션
-        List<PostDTO> postDTOs = postService.list();
+    public ResponseEntity<List<PostDTO>> list(
+            @PageableDefault(page = 0, size = 10, sort = "id")
+            Pageable pageable) {
+        List<PostDTO> postDTOs = postService.list(pageable);
         return new ResponseEntity<>(postDTOs, HttpStatus.OK);
     }
 
