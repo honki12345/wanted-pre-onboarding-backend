@@ -50,7 +50,7 @@ public class PostController {
             @RequestBody PostDTO postDTO
     ) {
         PostDTO updatedDTO = postService.update(id, postDTO);
-        return new ResponseEntity<>(updatedDTO, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(updatedDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
