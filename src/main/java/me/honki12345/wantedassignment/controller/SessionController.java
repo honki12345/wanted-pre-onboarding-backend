@@ -23,8 +23,6 @@ public class SessionController {
     
     @PostMapping
     public ResponseEntity<TokenDTO> login(@Validated @RequestBody MemberDTO memberDTO) {
-        // TODO 로그인 로직 & jwt 토큰값 반환 & 예외처리 & 검증
-
         String jwt = sessionService.createJWTToken(memberDTO);
 
         HttpHeaders httpHeaders = new HttpHeaders();

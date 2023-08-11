@@ -55,7 +55,6 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
-        // TODO 사용자 검증
         postService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
