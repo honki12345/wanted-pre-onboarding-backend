@@ -16,13 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -106,20 +107,27 @@ class PostControllerTest {
 
     @DisplayName("게시글 목록조회를 성공한다")
     @Test
-    void test() throws Exception {
+    void list() throws Exception {
         // given
+        String postId1 = "1";
         String title1 = "title1";
         String content1 = "content1";
-        PostDTO postDTO1 = PostDTO.of(title1, content1);
+        String author1 = "author1";
+        PostDTO postDTO1 = PostDTO.of(postId1, title1, content1, author1);
 
+        String postId2 = "2";
         String title2 = "title2";
         String content2 = "content2";
-        PostDTO postDTO2 = PostDTO.of(title2, content2);
+        String author2 = "author2";
+        PostDTO postDTO2 = PostDTO.of(postId2, title2, content2, author2);
 
-        when(postService.list()).thenReturn(List.of(postDTO1, postDTO2));
+        int pageNumber = 0;
+        int size = 10;
+        PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("id"));
+
+        when(postService.list(pageRequest)).thenReturn(List.of(postDTO1, postDTO2));
 
         // when // then
-        // TODO 페이지네이션
         mockMvc.perform(get("/posts"))
                 .andDo(print())
                 .andExpect(status().isOk())
