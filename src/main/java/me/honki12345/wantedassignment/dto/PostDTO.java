@@ -13,6 +13,10 @@ public record PostDTO(
         return new PostDTO(null, title, content, null);
     }
 
+    public static PostDTO of(String id, String title, String content, String author) {
+        return new PostDTO(Long.valueOf(id), title, content, author);
+    }
+
     public static PostDTO from(Post post) {
         return new PostDTO(
                 post.getId(),
