@@ -10,6 +10,8 @@ import me.honki12345.wantedassignment.domain.Post;
 import me.honki12345.wantedassignment.dto.PostDTO;
 import me.honki12345.wantedassignment.repository.MemberRepository;
 import me.honki12345.wantedassignment.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +40,15 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostDTO> list() {
-        return null;
+    public List<PostDTO> list(Pageable pageable) {
+        Page<Post> posts = postRepository.findAll(pageable);
+        return posts.map(post ->
+                        PostDTO.of(
+                                String.valueOf(post.getId()),
+                                post.getTitle(),
+                                post.getContent(),
+                                post.getMember().getEmail()))
+                .stream().toList();
     }
 
     @Transactional(readOnly = true)
