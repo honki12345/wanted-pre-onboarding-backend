@@ -2,7 +2,7 @@ package me.honki12345.wantedassignment.service;
 
 import lombok.RequiredArgsConstructor;
 import me.honki12345.wantedassignment.config.jwt.TokenProvider;
-import me.honki12345.wantedassignment.dto.MemberDTO;
+import me.honki12345.wantedassignment.controller.dto.LoginRequestDTO;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -15,9 +15,9 @@ public class SessionService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public String createJWTToken(MemberDTO memberDTO) {
+    public String createJWTToken(LoginRequestDTO requestDTO) {
         UsernamePasswordAuthenticationToken authenticationToken
-                = new UsernamePasswordAuthenticationToken(memberDTO.email(), memberDTO.pwd());
+                = new UsernamePasswordAuthenticationToken(requestDTO.email(), requestDTO.pwd());
 
         Authentication authentication
                 = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
