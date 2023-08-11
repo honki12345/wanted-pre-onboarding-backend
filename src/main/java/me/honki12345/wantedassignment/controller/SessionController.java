@@ -1,8 +1,8 @@
 package me.honki12345.wantedassignment.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.honki12345.wantedassignment.dto.MemberDTO;
-import me.honki12345.wantedassignment.dto.TokenDTO;
+import me.honki12345.wantedassignment.controller.dto.LoginRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.LoginResponseDTO;
 import me.honki12345.wantedassignment.service.SessionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,13 +22,13 @@ public class SessionController {
     private final SessionService sessionService;
     
     @PostMapping
-    public ResponseEntity<TokenDTO> login(@Validated @RequestBody MemberDTO memberDTO) {
-        String jwt = sessionService.createJWTToken(memberDTO);
+    public ResponseEntity<LoginResponseDTO> login(@Validated @RequestBody LoginRequestDTO requestDTO) {
+        String jwt = sessionService.createJWTToken(requestDTO);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(AUTHORIZATION_HEADER, AUTHORIZATION_PREFIX + jwt);
 
 
-        return new ResponseEntity<>(new TokenDTO(jwt), httpHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<>(new LoginResponseDTO(jwt), httpHeaders, HttpStatus.CREATED);
     }
 }
