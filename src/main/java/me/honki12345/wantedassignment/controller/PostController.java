@@ -1,12 +1,17 @@
 package me.honki12345.wantedassignment.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.honki12345.wantedassignment.dto.PostDTO;
+import me.honki12345.wantedassignment.controller.dto.PostCreateRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.PostCreateResponseDTO;
+import me.honki12345.wantedassignment.controller.dto.PostGetResponseDTO;
+import me.honki12345.wantedassignment.controller.dto.PostUpdateRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.PostUpdateResponseDTO;
 import me.honki12345.wantedassignment.service.PostService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -25,32 +30,33 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostDTO> create(@RequestBody PostDTO postDTO) {
-        PostDTO savedPostDTO = postService.create(postDTO);
-        return new ResponseEntity<>(savedPostDTO, HttpStatus.CREATED);
+    public ResponseEntity<PostCreateResponseDTO> create(
+            @Validated @RequestBody PostCreateRequestDTO requestDTO) {
+        PostCreateResponseDTO responseDTO = postService.create(requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDTO>> list(
+    public ResponseEntity<List<PostGetResponseDTO>> list(
             @PageableDefault(page = 0, size = 10, sort = "id")
             Pageable pageable) {
-        List<PostDTO> postDTOs = postService.list(pageable);
+        List<PostGetResponseDTO> postDTOs = postService.list(pageable);
         return new ResponseEntity<>(postDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostDTO> get(@PathVariable Long id) {
-        PostDTO postDTO = postService.get(id);
-        return new ResponseEntity<>(postDTO, HttpStatus.OK);
+    public ResponseEntity<PostGetResponseDTO> get(@PathVariable Long id) {
+        PostGetResponseDTO responseDTO = postService.get(id);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PostDTO> update(
+    public ResponseEntity<PostUpdateResponseDTO> update(
             @PathVariable Long id,
-            @RequestBody PostDTO postDTO
+            @RequestBody PostUpdateRequestDTO requestDTO
     ) {
-        PostDTO updatedDTO = postService.update(id, postDTO);
-        return new ResponseEntity<>(updatedDTO, HttpStatus.OK);
+        PostUpdateResponseDTO responseDTO = postService.update(id, requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
