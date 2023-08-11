@@ -1,6 +1,7 @@
 package me.honki12345.wantedassignment.service;
 
 import lombok.RequiredArgsConstructor;
+import me.honki12345.wantedassignment.common.MemberNotFoundException;
 import me.honki12345.wantedassignment.domain.Member;
 import me.honki12345.wantedassignment.repository.MemberRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return memberRepository.findOneWithAuthoritiesByEmail(email)
                 .map(member -> createUser(email, member))
-                .orElseThrow(() -> new UsernameNotFoundException(email + " -> 존재하지 않습니다"));
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     private User createUser(String email, Member member) {
