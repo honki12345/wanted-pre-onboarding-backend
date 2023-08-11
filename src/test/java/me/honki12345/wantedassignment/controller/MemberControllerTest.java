@@ -7,7 +7,8 @@ import me.honki12345.wantedassignment.config.SecurityConfig;
 import me.honki12345.wantedassignment.config.jwt.JwtAccessDeniedHandler;
 import me.honki12345.wantedassignment.config.jwt.JwtAuthenticationEntryPoint;
 import me.honki12345.wantedassignment.config.jwt.TokenProvider;
-import me.honki12345.wantedassignment.dto.MemberDTO;
+import me.honki12345.wantedassignment.controller.dto.SignupRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.SignupResponseDTO;
 import me.honki12345.wantedassignment.service.MemberService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -51,9 +52,18 @@ class MemberControllerTest {
         // given
         String email = "aaaa@naver.com";
         String pwd = "1234888888";
-        MemberDTO memberDTO = MemberDTO.of(email, pwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
-        when(memberService.signup(memberDTO)).thenReturn(memberDTO);
+        SignupRequestDTO requestDTO = SignupRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
+
+        Long postId = 1L;
+        SignupResponseDTO responseDTO = SignupResponseDTO.builder()
+                .id(postId)
+                .build();
+
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+        when(memberService.signup(requestDTO)).thenReturn(responseDTO);
 
         // when // then
         mockMvc.perform(
@@ -62,7 +72,8 @@ class MemberControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(responseDTO.id()));
     }
 
     @DisplayName("회원가입 요청의 이메일 입력값이 올바르지 않아 예외가 발생한다")
@@ -71,9 +82,19 @@ class MemberControllerTest {
         // given
         String wrongEmail = "google.com";
         String pwd = "1234888888";
-        MemberDTO memberDTO = MemberDTO.of(wrongEmail, pwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
-        when(memberService.signup(memberDTO)).thenReturn(memberDTO);
+        SignupRequestDTO requestDTO = SignupRequestDTO.builder()
+                .email(wrongEmail)
+                .pwd(pwd)
+                .build();
+
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+
+        Long postId = 1L;
+        SignupResponseDTO responseDTO = SignupResponseDTO.builder()
+                .id(postId)
+                .build();
+
+        when(memberService.signup(requestDTO)).thenReturn(responseDTO);
 
         // when // then
         mockMvc.perform(
@@ -91,11 +112,20 @@ class MemberControllerTest {
     @Test
     void signupException2() throws Exception {
         // given
-        String email = "ef@google.com";
-        String wrongPwd = "188";
-        MemberDTO memberDTO = MemberDTO.of(email, wrongPwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
-        when(memberService.signup(memberDTO)).thenReturn(memberDTO);
+        String email = "aaaa@naver.com";
+        String pwd = "12348";
+        SignupRequestDTO requestDTO = SignupRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
+
+        Long postId = 1L;
+        SignupResponseDTO responseDTO = SignupResponseDTO.builder()
+                .id(postId)
+                .build();
+
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+        when(memberService.signup(requestDTO)).thenReturn(responseDTO);
 
         // when // then
         mockMvc.perform(
@@ -112,11 +142,20 @@ class MemberControllerTest {
     @Test
     void signupException3() throws Exception {
         // given
-        String wrongEmail = "efgoogle.com";
-        String wrongPwd = "188";
-        MemberDTO memberDTO = MemberDTO.of(wrongEmail, wrongPwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
-        when(memberService.signup(memberDTO)).thenReturn(memberDTO);
+        String wrongEmail = "google.com";
+        String pwd = "12388";
+        SignupRequestDTO requestDTO = SignupRequestDTO.builder()
+                .email(wrongEmail)
+                .pwd(pwd)
+                .build();
+
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+
+        Long postId = 1L;
+        SignupResponseDTO responseDTO = SignupResponseDTO.builder()
+                .id(postId)
+                .build();
+        when(memberService.signup(requestDTO)).thenReturn(responseDTO);
 
         // when // then
         mockMvc.perform(
@@ -137,9 +176,13 @@ class MemberControllerTest {
         // Given
         String email = "aaaa@naver.com";
         String pwd = "1234888888";
-        MemberDTO memberDTO = MemberDTO.of(email, pwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
-        when(memberService.signup(memberDTO)).thenThrow(DuplicateEmailException.class);
+        SignupRequestDTO requestDTO = SignupRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
+
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+        when(memberService.signup(requestDTO)).thenThrow(DuplicateEmailException.class);
 
         // When // Then
         mockMvc.perform(
