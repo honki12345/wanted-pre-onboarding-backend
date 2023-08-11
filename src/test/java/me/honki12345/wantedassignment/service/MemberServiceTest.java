@@ -1,9 +1,9 @@
 package me.honki12345.wantedassignment.service;
 
 import me.honki12345.wantedassignment.common.DuplicateEmailException;
+import me.honki12345.wantedassignment.controller.dto.SignupRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.SignupResponseDTO;
 import me.honki12345.wantedassignment.domain.Member;
-import me.honki12345.wantedassignment.dto.AuthorityDTO;
-import me.honki12345.wantedassignment.dto.MemberDTO;
 import me.honki12345.wantedassignment.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -13,9 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.Collections;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,19 +40,17 @@ class MemberServiceTest {
         // given
         String email = "aaaa@naver.com";
         String pwd = "1234888888";
-        MemberDTO memberDTO = MemberDTO.of(email, pwd);
-
-        Set<AuthorityDTO> authorityDTO = Collections.singleton(
-                new AuthorityDTO("ROLE_USER"));
+        SignupRequestDTO requestDTO = SignupRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
 
         // when
-        MemberDTO savedMemberDTO = memberService.signup(memberDTO);
+        SignupResponseDTO responseDTO = memberService.signup(requestDTO);
 
         // then
-        Assertions.assertThat(savedMemberDTO)
-                .hasFieldOrPropertyWithValue("email", email)
-                .hasFieldOrPropertyWithValue("authorities", authorityDTO);
-        assertTrue(passwordEncoder.matches(pwd, savedMemberDTO.pwd()));
+        Assertions.assertThat(responseDTO)
+                .hasFieldOrPropertyWithValue("id", responseDTO.id());
 
 
     }
@@ -66,7 +61,10 @@ class MemberServiceTest {
         // given
         String email = "aaaa@naver.com";
         String pwd = "1234888888";
-        MemberDTO memberDTO = MemberDTO.of(email, pwd);
+        SignupRequestDTO requestDTO = SignupRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
 
         Member member = Member.builder()
                 .email(email)
@@ -76,7 +74,7 @@ class MemberServiceTest {
         memberRepository.save(member);
 
         // when // then
-        assertThrows(DuplicateEmailException.class, () -> memberService.signup(memberDTO));
+        assertThrows(DuplicateEmailException.class, () -> memberService.signup(requestDTO));
 
 
     }
