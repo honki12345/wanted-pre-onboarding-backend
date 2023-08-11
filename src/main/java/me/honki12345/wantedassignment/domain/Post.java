@@ -11,7 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import me.honki12345.wantedassignment.dto.PostDTO;
+import me.honki12345.wantedassignment.controller.dto.PostUpdateRequestDTO;
 
 import java.util.Objects;
 
@@ -52,8 +52,13 @@ public class Post {
         return Objects.hash(id);
     }
 
-    public void update(PostDTO postDTO) {
-        this.title = postDTO.title();
-        this.content = postDTO.content();
+    public void update(PostUpdateRequestDTO postDTO) {
+        if (postDTO.content() != null) {
+            this.content = postDTO.content();
+        }
+
+        if (postDTO.title() != null) {
+            this.title = postDTO.title();
+        }
     }
 }
