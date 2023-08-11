@@ -5,7 +5,7 @@ import me.honki12345.wantedassignment.config.SecurityConfig;
 import me.honki12345.wantedassignment.config.jwt.JwtAccessDeniedHandler;
 import me.honki12345.wantedassignment.config.jwt.JwtAuthenticationEntryPoint;
 import me.honki12345.wantedassignment.config.jwt.TokenProvider;
-import me.honki12345.wantedassignment.dto.MemberDTO;
+import me.honki12345.wantedassignment.controller.dto.LoginRequestDTO;
 import me.honki12345.wantedassignment.service.SessionService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -50,10 +49,14 @@ class SessionControllerTest {
         // given
         String email = "aaaa@naver.com";
         String pwd = "1234888888";
-        MemberDTO memberDTO = MemberDTO.of(email, pwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
+        LoginRequestDTO requestDTO = LoginRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+
         String jwt = "jwtTokenExample";
-        when(sessionService.createJWTToken(memberDTO)).thenReturn(jwt);
+        when(sessionService.createJWTToken(requestDTO)).thenReturn(jwt);
 
         // when // then
         mockMvc.perform(
@@ -71,12 +74,16 @@ class SessionControllerTest {
     @Test
     void login_Email_Exception() throws Exception {
         // given
-        String wrongEmail = "google.com";
+        String email = "aaaanaver.com";
         String pwd = "1234888888";
-        MemberDTO memberDTO = MemberDTO.of(wrongEmail, pwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
+        LoginRequestDTO requestDTO = LoginRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+
         String jwt = "jwtTokenExample";
-        when(sessionService.createJWTToken(memberDTO)).thenReturn(jwt);
+        when(sessionService.createJWTToken(requestDTO)).thenReturn(jwt);
 
         // when // then
         mockMvc.perform(
@@ -94,12 +101,16 @@ class SessionControllerTest {
     @Test
     void login_Pwd_Exception() throws Exception {
         // given
-        String email = "ef@google.com";
-        String wrongPwd = "188";
-        MemberDTO memberDTO = MemberDTO.of(email, wrongPwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
+        String email = "aaaa@naver.com";
+        String pwd = "1234";
+        LoginRequestDTO requestDTO = LoginRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+
         String jwt = "jwtTokenExample";
-        when(sessionService.createJWTToken(memberDTO)).thenReturn(jwt);
+        when(sessionService.createJWTToken(requestDTO)).thenReturn(jwt);
 
         // when // then
         mockMvc.perform(
@@ -116,12 +127,16 @@ class SessionControllerTest {
     @Test
     void login_Email_Pwd_Exception() throws Exception {
         // given
-        String wrongEmail = "efgoogle.com";
-        String wrongPwd = "188";
-        MemberDTO memberDTO = MemberDTO.of(wrongEmail, wrongPwd);
-        String requestBody = objectMapper.writeValueAsString(memberDTO);
+        String email = "aaaaavercom";
+        String pwd = "123";
+        LoginRequestDTO requestDTO = LoginRequestDTO.builder()
+                .email(email)
+                .pwd(pwd)
+                .build();
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+
         String jwt = "jwtTokenExample";
-        when(sessionService.createJWTToken(memberDTO)).thenReturn(jwt);
+        when(sessionService.createJWTToken(requestDTO)).thenReturn(jwt);
 
         // when // then
         mockMvc.perform(
