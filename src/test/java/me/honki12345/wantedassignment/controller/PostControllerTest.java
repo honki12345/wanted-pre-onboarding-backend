@@ -53,7 +53,7 @@ class PostControllerTest {
     PostService postService;
 
     @WithMockUser
-    @DisplayName("게시글 생성을 @WithMockUser을 통해 성공한다")
+    @DisplayName("게시글 생성을 @WithMockUser 을 통해 성공한다")
     @Test
     void create() throws Exception {
         // given
@@ -61,7 +61,7 @@ class PostControllerTest {
         String title = "title1";
         String content = "content1";
         String author = "author";
-        PostDTO postDTO = PostDTO.of(title, content);
+        PostDTO postDTO = PostDTO.of(title, content, author);
         PostDTO savedPostDTO = new PostDTO(id, title, content, author);
 
         String requestBody = objectMapper.writeValueAsString(postDTO);
@@ -89,7 +89,7 @@ class PostControllerTest {
         String title = "title1";
         String content = "content1";
         String author = "author";
-        PostDTO postDTO = PostDTO.of(title, content);
+        PostDTO postDTO = PostDTO.of(title, content, author);
         PostDTO savedPostDTO = new PostDTO(id, title, content, author);
 
         String requestBody = objectMapper.writeValueAsString(postDTO);
@@ -145,7 +145,8 @@ class PostControllerTest {
 
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content);
+        String author = "author";
+        PostDTO postDTO = PostDTO.of(title, content, author);
 
         when(postService.get(postId)).thenReturn(postDTO);
 
@@ -156,11 +157,12 @@ class PostControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value(postDTO.title()))
-                .andExpect(jsonPath("$.content").value(postDTO.content()));
+                .andExpect(jsonPath("$.content").value(postDTO.content()))
+                .andExpect(jsonPath("$.author").value(postDTO.author()));
     }
 
     @WithMockUser
-    @DisplayName("게시글수정을 @WithMockUser을 통해 성공한다")
+    @DisplayName("게시글수정을 @WithMockUser 을 통해 성공한다")
     @Test
     void update() throws Exception {
         // given
