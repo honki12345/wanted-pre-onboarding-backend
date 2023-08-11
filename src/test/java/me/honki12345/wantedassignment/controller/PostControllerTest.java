@@ -8,7 +8,11 @@ import me.honki12345.wantedassignment.config.SecurityConfig;
 import me.honki12345.wantedassignment.config.jwt.JwtAccessDeniedHandler;
 import me.honki12345.wantedassignment.config.jwt.JwtAuthenticationEntryPoint;
 import me.honki12345.wantedassignment.config.jwt.TokenProvider;
-import me.honki12345.wantedassignment.dto.PostDTO;
+import me.honki12345.wantedassignment.controller.dto.PostCreateRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.PostCreateResponseDTO;
+import me.honki12345.wantedassignment.controller.dto.PostGetResponseDTO;
+import me.honki12345.wantedassignment.controller.dto.PostUpdateRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.PostUpdateResponseDTO;
 import me.honki12345.wantedassignment.service.PostService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,15 +61,24 @@ class PostControllerTest {
     @Test
     void create() throws Exception {
         // given
-        long id = 1L;
         String title = "title1";
         String content = "content1";
-        String author = "author";
-        PostDTO postDTO = PostDTO.of(title, content, author);
-        PostDTO savedPostDTO = new PostDTO(id, title, content, author);
+        PostCreateRequestDTO requestDTO = PostCreateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
-        String requestBody = objectMapper.writeValueAsString(postDTO);
-        when(postService.create(postDTO)).thenReturn(savedPostDTO);
+        long id = 1L;
+        String author = "author";
+        PostCreateResponseDTO responseDTO = PostCreateResponseDTO.builder()
+                .id(id)
+                .title(title)
+                .content(content)
+                .author(author)
+                .build();
+
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+        when(postService.create(requestDTO)).thenReturn(responseDTO);
 
         // when // then
         mockMvc.perform(
@@ -85,15 +98,24 @@ class PostControllerTest {
     @Test
     void createException() throws Exception {
         // given
-        long id = 1L;
         String title = "title1";
         String content = "content1";
-        String author = "author";
-        PostDTO postDTO = PostDTO.of(title, content, author);
-        PostDTO savedPostDTO = new PostDTO(id, title, content, author);
+        PostCreateRequestDTO requestDTO = PostCreateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
-        String requestBody = objectMapper.writeValueAsString(postDTO);
-        when(postService.create(postDTO)).thenReturn(savedPostDTO);
+        long id = 1L;
+        String author = "author";
+        PostCreateResponseDTO responseDTO = PostCreateResponseDTO.builder()
+                .id(id)
+                .title(title)
+                .content(content)
+                .author(author)
+                .build();
+
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+        when(postService.create(requestDTO)).thenReturn(responseDTO);
 
         // when // then
         mockMvc.perform(
@@ -113,13 +135,23 @@ class PostControllerTest {
         String title1 = "title1";
         String content1 = "content1";
         String author1 = "author1";
-        PostDTO postDTO1 = PostDTO.of(postId1, title1, content1, author1);
+        PostGetResponseDTO postDTO1 = PostGetResponseDTO.builder()
+                .id(Long.valueOf(postId1))
+                .title(title1)
+                .content(content1)
+                .author(author1)
+                .build();
 
         String postId2 = "2";
         String title2 = "title2";
         String content2 = "content2";
         String author2 = "author2";
-        PostDTO postDTO2 = PostDTO.of(postId2, title2, content2, author2);
+        PostGetResponseDTO postDTO2 = PostGetResponseDTO.builder()
+                .id(Long.valueOf(postId2))
+                .title(title2)
+                .content(content2)
+                .author(author2)
+                .build();
 
         int pageNumber = 0;
         int size = 10;
@@ -146,7 +178,12 @@ class PostControllerTest {
         String title = "title1";
         String content = "content1";
         String author = "author";
-        PostDTO postDTO = PostDTO.of(title, content, author);
+        PostGetResponseDTO postDTO = PostGetResponseDTO.builder()
+                .id(Long.valueOf(postId))
+                .title(title)
+                .content(content)
+                .author(author)
+                .build();
 
         when(postService.get(postId)).thenReturn(postDTO);
 
@@ -168,14 +205,22 @@ class PostControllerTest {
         // given
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content);
+        PostUpdateRequestDTO requestDTO = PostUpdateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
         long postId = 1L;
         String author = "aaa@bbb.com";
-        PostDTO updatedPostDTO = new PostDTO(postId, title, content, author);
+        PostUpdateResponseDTO responseDTO = PostUpdateResponseDTO.builder()
+                .id(postId)
+                .title(title)
+                .content(content)
+                .author(author)
+                .build();
 
-        String requestBody = objectMapper.writeValueAsString(postDTO);
-        when(postService.update(postId, postDTO)).thenReturn(updatedPostDTO);
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+        when(postService.update(postId, requestDTO)).thenReturn(responseDTO);
 
         // when // then
         mockMvc.perform(
@@ -184,7 +229,7 @@ class PostControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
-                .andExpect(status().isNoContent())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(postId))
                 .andExpect(jsonPath("$.title").value(title))
                 .andExpect(jsonPath("$.content").value(content))
@@ -198,14 +243,22 @@ class PostControllerTest {
         // given
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content);
+        PostUpdateRequestDTO requestDTO = PostUpdateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
 
         long postId = 1L;
         String author = "aaa@bbb.com";
-        PostDTO updatedPostDTO = new PostDTO(postId, title, content, author);
+        PostUpdateResponseDTO responseDTO = PostUpdateResponseDTO.builder()
+                .id(postId)
+                .title(title)
+                .content(content)
+                .author(author)
+                .build();
 
-        String requestBody = objectMapper.writeValueAsString(postDTO);
-        when(postService.update(postId, postDTO)).thenReturn(updatedPostDTO);
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+        when(postService.update(postId, requestDTO)).thenReturn(responseDTO);
 
         // when // then
         mockMvc.perform(
@@ -222,15 +275,18 @@ class PostControllerTest {
     @Test
     void update_Post_Exception() throws Exception {
         // given
-        long postId = 1L;
-
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content);
-        String requestBody = objectMapper.writeValueAsString(postDTO);
+        PostUpdateRequestDTO requestDTO = PostUpdateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
+
+        long postId = 1L;
 
         PostNotFoundException postNotFoundException = new PostNotFoundException();
-        doThrow(postNotFoundException).when(postService).update(postId, postDTO);
+        doThrow(postNotFoundException).when(postService).update(postId, requestDTO);
 
         // when // then
         mockMvc.perform(
@@ -254,11 +310,13 @@ class PostControllerTest {
 
         String title = "title1";
         String content = "content1";
-        PostDTO postDTO = PostDTO.of(title, content);
+        PostUpdateRequestDTO requestDTO = PostUpdateRequestDTO.builder()
+                .title(title)
+                .content(content)
+                .build();
+        String requestBody = objectMapper.writeValueAsString(requestDTO);
 
-        String requestBody = objectMapper.writeValueAsString(postDTO);
-
-        when(postService.update(postId, postDTO)).thenThrow(NotAuthorizedException.class);
+        when(postService.update(postId, requestDTO)).thenThrow(NotAuthorizedException.class);
 
         // when // then
         mockMvc.perform(
