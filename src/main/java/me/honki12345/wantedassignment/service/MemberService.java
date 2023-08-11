@@ -2,9 +2,10 @@ package me.honki12345.wantedassignment.service;
 
 import lombok.RequiredArgsConstructor;
 import me.honki12345.wantedassignment.common.DuplicateEmailException;
+import me.honki12345.wantedassignment.controller.dto.SignupRequestDTO;
+import me.honki12345.wantedassignment.controller.dto.SignupResponseDTO;
 import me.honki12345.wantedassignment.domain.Authority;
 import me.honki12345.wantedassignment.domain.Member;
-import me.honki12345.wantedassignment.dto.MemberDTO;
 import me.honki12345.wantedassignment.repository.MemberRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public MemberDTO signup(MemberDTO memberDTO) {
-        if (memberRepository.findOneWithAuthoritiesByEmail(memberDTO.email())
+    public SignupResponseDTO signup(SignupRequestDTO requestDTO) {
+        if (memberRepository.findOneWithAuthoritiesByEmail(requestDTO.email())
                 .orElse(null) != null) {
             throw new DuplicateEmailException();
         }
@@ -30,11 +31,11 @@ public class MemberService {
                 .build();
 
         Member member = Member.builder()
-                .email(memberDTO.email())
-                .pwd(passwordEncoder.encode(memberDTO.pwd()))
+                .email(requestDTO.email())
+                .pwd(passwordEncoder.encode(requestDTO.pwd()))
                 .authorities(Collections.singleton(authority))
                 .build();
 
-        return MemberDTO.from(memberRepository.save(member));
+        return SignupResponseDTO.from(memberRepository.save(member));
     }
 }
