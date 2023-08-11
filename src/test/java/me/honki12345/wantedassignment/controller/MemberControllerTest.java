@@ -42,8 +42,8 @@ class MemberControllerTest {
     @MockBean
     MemberService memberService;
 
-    String emailErrorMessage = "이메일 형식이 올바르지 않습니다";
-    String pwdErrorMessage = "비밀번호 형식이 올바르지 않습니다";
+    final String EMAIL_VALID_MSG = "이메일 형식이 올바르지 않습니다";
+    final String PWD_VALID_MSG = "비밀번호 형식이 올바르지 않습니다";
 
     @DisplayName("회원가입을 성공한다")
     @Test
@@ -73,9 +73,7 @@ class MemberControllerTest {
         String pwd = "1234888888";
         MemberDTO memberDTO = MemberDTO.of(wrongEmail, pwd);
         String requestBody = objectMapper.writeValueAsString(memberDTO);
-//        doNothing().when(memberService).signup(memberDTO);
         when(memberService.signup(memberDTO)).thenReturn(memberDTO);
-//        String errorMessage = "이메일 형식이 올바르지 않습니다";
 
         // when // then
         mockMvc.perform(
@@ -85,7 +83,7 @@ class MemberControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(emailErrorMessage))
+                .andExpect(jsonPath("$.message").value(EMAIL_VALID_MSG))
                 .andExpect(jsonPath("$.code").value("COMMON-001"));
     }
 
@@ -97,7 +95,6 @@ class MemberControllerTest {
         String wrongPwd = "188";
         MemberDTO memberDTO = MemberDTO.of(email, wrongPwd);
         String requestBody = objectMapper.writeValueAsString(memberDTO);
-//        doNothing().when(memberService).signup(memberDTO);
         when(memberService.signup(memberDTO)).thenReturn(memberDTO);
 
         // when // then
@@ -108,7 +105,7 @@ class MemberControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(pwdErrorMessage))
+                .andExpect(jsonPath("$.message").value(PWD_VALID_MSG))
                 .andExpect(jsonPath("$.code").value("COMMON-001"));
     }
     @DisplayName("회원가입 요청의 이메일과 비밀번호 둘 다 값이 올바르지 않아 예외가 발생한다")
@@ -119,7 +116,6 @@ class MemberControllerTest {
         String wrongPwd = "188";
         MemberDTO memberDTO = MemberDTO.of(wrongEmail, wrongPwd);
         String requestBody = objectMapper.writeValueAsString(memberDTO);
-//        doNothing().when(memberService).signup(memberDTO);
         when(memberService.signup(memberDTO)).thenReturn(memberDTO);
 
         // when // then
@@ -130,8 +126,8 @@ class MemberControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value(Matchers.containsString(emailErrorMessage)))
-                .andExpect(jsonPath("$.message").value(Matchers.containsString(pwdErrorMessage)))
+                .andExpect(jsonPath("$.message").value(Matchers.containsString(EMAIL_VALID_MSG)))
+                .andExpect(jsonPath("$.message").value(Matchers.containsString(PWD_VALID_MSG)))
                 .andExpect(jsonPath("$.code").value("COMMON-001"));
     }
 
