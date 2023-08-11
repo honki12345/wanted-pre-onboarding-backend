@@ -2,6 +2,7 @@ package me.honki12345.wantedassignment.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.honki12345.wantedassignment.common.MemberNotFoundException;
 import me.honki12345.wantedassignment.common.NotAuthorizedException;
 import me.honki12345.wantedassignment.common.NotFoundException;
 import me.honki12345.wantedassignment.common.PostNotFoundException;
@@ -28,7 +29,7 @@ public class PostService {
     @Transactional
     public PostDTO create(PostDTO postDTO) {
         Member member = memberRepository.findByEmail(getUsername())
-                .orElseThrow(() -> new NotFoundException("잘못된 사용자입니다"));
+               .orElseThrow(MemberNotFoundException::new);
 
         Post post = Post.builder()
                 .title(postDTO.title())
@@ -53,7 +54,8 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostDTO get(Long id) {
-        return null;
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        return PostDTO.from(post);
     }
 
     @Transactional
