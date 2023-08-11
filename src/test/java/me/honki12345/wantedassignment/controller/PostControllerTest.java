@@ -230,8 +230,8 @@ class PostControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value(postNotFoundException.getMessage()))
-                .andExpect(jsonPath("$.code").value(ErrorCode.NOT_FOUND.getCode()));
+                .andExpect(jsonPath("$.message").value(ErrorCode.POST_NOT_FOUND.getMessage()))
+                .andExpect(jsonPath("$.code").value(ErrorCode.POST_NOT_FOUND.getCode()));
 
     }
 
@@ -312,8 +312,8 @@ class PostControllerTest {
                 )
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value(postNotFoundException.getMessage()))
-                .andExpect(jsonPath("$.code").value(ErrorCode.NOT_FOUND.getCode()));
+                .andExpect(jsonPath("$.message").value(ErrorCode.POST_NOT_FOUND.getMessage()))
+                .andExpect(jsonPath("$.code").value(ErrorCode.POST_NOT_FOUND.getCode()));
     }
 
     @WithMockUser
