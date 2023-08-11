@@ -16,7 +16,7 @@ public record MemberDTO(
         @Size(min = 8, message = "비밀번호 형식이 올바르지 않습니다")
         String pwd,
 
-        Set<AuthorityDTO> authorityDTOSet
+        Set<AuthorityDTO> authorities
 
 ) {
     public static MemberDTO of(String email, String pwd) {
