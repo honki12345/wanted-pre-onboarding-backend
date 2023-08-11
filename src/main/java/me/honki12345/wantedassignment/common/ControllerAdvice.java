@@ -1,5 +1,10 @@
 package me.honki12345.wantedassignment.common;
 
+import me.honki12345.wantedassignment.common.exception.DuplicateEmailException;
+import me.honki12345.wantedassignment.common.exception.MemberNotFoundException;
+import me.honki12345.wantedassignment.common.exception.NotAuthorizedException;
+import me.honki12345.wantedassignment.common.exception.NotFoundException;
+import me.honki12345.wantedassignment.common.exception.PostNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

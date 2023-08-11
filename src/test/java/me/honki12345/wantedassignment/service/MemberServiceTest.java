@@ -1,10 +1,11 @@
 package me.honki12345.wantedassignment.service;
 
-import me.honki12345.wantedassignment.common.DuplicateEmailException;
-import me.honki12345.wantedassignment.controller.dto.SignupRequestDTO;
-import me.honki12345.wantedassignment.controller.dto.SignupResponseDTO;
-import me.honki12345.wantedassignment.domain.Member;
-import me.honki12345.wantedassignment.repository.MemberRepository;
+import me.honki12345.wantedassignment.application.service.MemberService;
+import me.honki12345.wantedassignment.common.exception.DuplicateEmailException;
+import me.honki12345.wantedassignment.web.dto.SignupRequestDTO;
+import me.honki12345.wantedassignment.web.dto.SignupResponseDTO;
+import me.honki12345.wantedassignment.application.domain.Member;
+import me.honki12345.wantedassignment.application.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
