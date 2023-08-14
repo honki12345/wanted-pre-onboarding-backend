@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.honki12345.wantedassignment.web.dto.PostUpdateRequestDTO;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -53,11 +54,11 @@ public class Post {
     }
 
     public void update(PostUpdateRequestDTO postDTO) {
-        if (postDTO.content() != null) {
+        if (StringUtils.hasText(postDTO.content())) {
             this.content = postDTO.content();
         }
 
-        if (postDTO.title() != null) {
+        if (StringUtils.hasText(postDTO.title())) {
             this.title = postDTO.title();
         }
     }
