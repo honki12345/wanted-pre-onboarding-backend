@@ -19,6 +19,7 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 100
+        dialect: org.hibernate.dialect.MySQLDialect
   sql:
     init:
       mode: always
@@ -38,3 +39,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
