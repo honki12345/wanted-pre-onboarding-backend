@@ -46,59 +46,59 @@
 
 - 회원가입
     ```
-    curl -X POST https://{SERVER_URL}/members \
+    curl -X POST http://{SERVER_URL}/members \
       -H "Content-Type: application/json" \
-      -d '{ \
-          	"email": "aaa@bbb.com", \
-            "pwd": "password" \
+      -d '{ 
+          	"email": "aaa@bbb.com", 
+            "pwd": "password" 
           }'
     ```
     
 - 로그인
     ```
-    curl -X POST https://{SERVER_URL}/session \
+    curl -X POST http://{SERVER_URL}/session \
       -H "Content-Type: application/json" \
-      -d '{ \
-          	"email": "aaa@bbb.com", \
-            "pwd": "password" \
+      -d '{ 
+          	"email": "aaa@bbb.com", 
+            "pwd": "password" 
           }'
     ```
     
 - 게시글 생성
     ```
-    curl -X POST https://{SERVER_URL}/posts \
+    curl -X POST http://{SERVER_URL}/posts \
       -H "Authorization: Bearer {TOKEN}" \
       -H "Content-Type: application/json" \
-      -d '{ \
-          	"title": "제목", \
-            "content": "내용" \
+      -d '{ 
+          	"title": "제목", 
+            "content": "내용" 
           }'
     ```
     
 - 게시글 목록조회
     ```
-    curl -X GET https://{SERVER_URL}/posts?page={PAGE_NUMBER}
+    curl -X GET http://{SERVER_URL}/posts?page={PAGE_NUMBER}
     ```
     
 - 게시글 상세조회
     ```
-    curl -X GET https://{SERVER_URL}/posts/{id}
+    curl -X GET http://{SERVER_URL}/posts/{id}
     ```
     
 - 게시글 수정
     ```
-    curl -X PATCH https://{SERVER_URL}/posts/{id} \
+    curl -X PATCH http://{SERVER_URL}/posts/{id} \
       -H "Authorization: Bearer {API_KEY}" \
       -H "Content-Type: application/json" \
-      -d '{ \
-          	"title": "제목", \
-            "content": "내용" \
+      -d '{ 
+          	"title": "제목", 
+            "content": "내용" 
           }'
     ```
     
 - 게시글 삭제
     ```
-    curl -X DELETE https://{SERVER_URL}/posts/{id} \
+    curl -X DELETE http://{SERVER_URL}/posts/{id} \
       -H "Authorization: Bearer {API_KEY}"
     ```
     
@@ -145,8 +145,67 @@
 
 ![architecture](./document/architecture.png)
 
-- `15.164.138.207:8080`
+- 배포주소: `15.164.138.207:8080`
 
+#### 배포된 API 주소
+- 회원가입
+    ```
+    curl -X POST http://15.164.138.207:8080/members \
+      -H "Content-Type: application/json" \
+      -d '{ 
+          	"email": "aaa@bbb.com", 
+            "pwd": "password" 
+          }'
+    ```
+
+- 로그인
+    ```
+    curl -X POST http://15.164.138.207:8080/session \
+      -H "Content-Type: application/json" \
+      -d '{ 
+          	"email": "aaa@bbb.com", 
+            "pwd": "password" 
+          }'
+    ```
+
+- 게시글 생성
+    ```
+    curl -X POST http://15.164.138.207:8080/posts \
+      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTIxMjI0MTF9.0JaANU0i5VimchvvmdoHwyCkFKUi-eBiqdXPbvmRxwhP01TwOoBjqzfIsqaIusgH7UyerLdP_pABjlF3d7TZcg" \
+      -H "Content-Type: application/json" \
+      -d '{ 
+          	"title": "제목", 
+            "content": "내용" 
+          }'
+    ```
+
+- 게시글 목록조회
+    ```
+    curl -X GET http://15.164.138.207:8080/posts
+    ```
+
+- 게시글 상세조회
+    ```
+    curl -X GET http://15.164.138.207:8080/posts/1
+    ```
+
+- 게시글 수정
+    ```
+    curl -X PATCH http://15.164.138.207:8080/posts/1 \
+      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTIxMjI0MTF9.0JaANU0i5VimchvvmdoHwyCkFKUi-eBiqdXPbvmRxwhP01TwOoBjqzfIsqaIusgH7UyerLdP_pABjlF3d7TZcg" \
+      -H "Content-Type: application/json" \
+      -d '{ 
+          	"title": "수정제목", 
+            "content": "수정내용" 
+          }'
+    ```
+
+- 게시글 삭제
+    ```
+    curl -X DELETE http://15.164.138.207:8080/posts/1 \
+      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTIxMjI0MTF9.0JaANU0i5VimchvvmdoHwyCkFKUi-eBiqdXPbvmRxwhP01TwOoBjqzfIsqaIusgH7UyerLdP_pABjlF3d7TZcg"
+    ```
+  
 # - API 명세(request/response 포함)
 
 #### - 사용자
