@@ -141,6 +141,12 @@
 - 데이터베이스 설계
   - 데이터베이스 설계는 admin 권한과 user 권한 같은 권한의 다양성을 고려해서 권한 테이블을 만들고 회원과 권한 테이블의 다대다 관계로 연결해주었다.
 
+# 클라우드 환경
+
+![architecture](./document/architecture.png)
+
+- `15.164.138.207:8080`
+
 # - API 명세(request/response 포함)
 
 #### - 사용자
@@ -293,8 +299,3 @@
 
     <hr/>
 
-# 클라우드 환경
-
-![architecture](./document/architecture.png)
-
-- `15.164.138.207:8080`
