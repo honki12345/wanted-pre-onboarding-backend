@@ -10,6 +10,96 @@
 
 ### 애플리케이션의 실행 방법 (엔드포인트 호출 방법 포함)
 
+##### 0. 실행환경 준비하기
+
+- 애플리케이션 실행을 위해서는 `git`, 빌드도구 `gradle` 과 `docker`, `docker compose` 가 필요합니다
+- 엔드포인트 호출을 위해서 `curl` 을 사용합니다
+
+##### 1. git clone
+
+- 다음의 명령어를 통해 리포지토리를 로컬에 복사해주세요 
+    `git clone https://github.com/honki12345/wanted-pre-onboarding-backend.git`
+
+##### 2. 환경변수파일 `.env` 만들기
+
+- 데이터베이스 비밀번호와 같은 민감한 정보는 환경변수 파일로 관리합니다.
+
+- 클론한 프로젝트 루트 디렉터리에 `.env` 파일을 만들고 다음과 같은 정보를 설정해주세요
+    ```
+    MYSQL_ROOT_PASSWORD=
+    MYSQL_DATABASE_NAME=
+    MYSQL_USER_NAME=
+    MYSQL_USER_PASSWORD=
+    ```
+
+##### 3. 도커컴포즈 실행 
+
+- 생성/실행 `docker-compose up`
+
+- 중지 `docker-compose stop`
+
+##### 4. 엔드포인트 호출
+
+- 회원가입
+    ```
+    curl -X POST https://{SERVER_URL}/members \
+      -H "Content-Type: application/json" \
+      -d '{ \
+          	"email": "email", \
+            "pwd": "password" \
+          }'
+    ```
+    
+- 로그인
+    ```
+    curl -X POST https://{SERVER_URL}/session \
+      -H "Content-Type: application/json" \
+      -d '{ \
+          	"email": "email", \
+            "pwd": "password" \
+          }'
+    ```
+    
+- 게시글 생성
+    ```
+    curl -X POST https://{SERVER_URL}/posts \
+      -H "Authorization: Bearer {TOKEN}" \
+      -H "Content-Type: application/json" \
+      -d '{ \
+          	"title": "제목", \
+            "content": "내용" \
+          }'
+    ```
+    
+- 게시글 목록조회
+    ```
+    curl -X GET https://{SERVER_URL}/posts?page={PAGE_NUMBER}
+    ```
+    
+- 게시글 상세조회
+    ```
+    curl -X GET https://{SERVER_URL}/posts/{id}
+    ```
+    
+- 게시글 수정
+    ```
+    curl -X PATCH https://{SERVER_URL}/posts/{id} \
+      -H "Authorization: Bearer {API_KEY}" \
+      -H "Content-Type: application/json" \
+      -d '{ \
+          	"title": "제목", \
+            "content": "내용" \
+          }'
+    ```
+    
+- 게시글 삭제
+    ```
+    curl -X DELETE https://{SERVER_URL}/posts/{id} \
+      -H "Authorization: Bearer {API_KEY}"
+    ```
+    
+    
+
 ### 데이터베이스 테이블 구조
 
 ### 구현한 API 의 동작을 촬영한 데모 영상 링크
