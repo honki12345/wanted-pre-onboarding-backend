@@ -12,13 +12,17 @@
 
 ##### 0. 실행환경 준비하기
 
-- 애플리케이션 실행을 위해서는 `git`, 빌드도구 `gradle` 과 `docker`, `docker compose` 가 필요합니다
+- 애플리케이션 실행을 위해서는 `git`, 빌드도구 `gradle`, `java 17` 과 `docker`, `docker compose` 가 필요합니다
 - 엔드포인트 호출을 위해서 `curl` 을 사용합니다
 
 ##### 1. git clone
 
 - 다음의 명령어를 통해 리포지토리를 로컬에 복사해주세요 
     `git clone https://github.com/honki12345/wanted-pre-onboarding-backend.git`
+
+##### 2. 빌드
+
+- 프로젝트 루트 리포지토리에서 `./gradlew build` 를 수행합니다.
 
 ##### 2. 환경변수파일 `.env` 만들기
 
@@ -45,7 +49,7 @@
     curl -X POST https://{SERVER_URL}/members \
       -H "Content-Type: application/json" \
       -d '{ \
-          	"email": "email", \
+          	"email": "aaa@bbb.com", \
             "pwd": "password" \
           }'
     ```
@@ -55,7 +59,7 @@
     curl -X POST https://{SERVER_URL}/session \
       -H "Content-Type: application/json" \
       -d '{ \
-          	"email": "email", \
+          	"email": "aaa@bbb.com", \
             "pwd": "password" \
           }'
     ```
