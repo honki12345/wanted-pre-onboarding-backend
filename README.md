@@ -292,5 +292,9 @@
 
 
     <hr/>
-    
-    
+
+# 클라우드 환경
+
+![architecture](./document/architecture.png)
+
+- `15.164.138.207:8080`
