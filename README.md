@@ -171,7 +171,7 @@
 - 게시글 생성
     ```
     curl -X POST http://15.164.138.207:8080/posts \
-      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTIxMjI0MTF9.0JaANU0i5VimchvvmdoHwyCkFKUi-eBiqdXPbvmRxwhP01TwOoBjqzfIsqaIusgH7UyerLdP_pABjlF3d7TZcg" \
+      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTI5MDE1MDR9.4KI9NoBM50WKILG7GJ_5o5sw4OO43KF5YnUb5-gcWvDic7Qs7VptLVl_dnv0JftHOgwimB91Z2U8A1hXE_jzHA" \
       -H "Content-Type: application/json" \
       -d '{ 
           	"title": "제목", 
@@ -192,7 +192,7 @@
 - 게시글 수정
     ```
     curl -X PATCH http://15.164.138.207:8080/posts/1 \
-      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTIxMjI0MTF9.0JaANU0i5VimchvvmdoHwyCkFKUi-eBiqdXPbvmRxwhP01TwOoBjqzfIsqaIusgH7UyerLdP_pABjlF3d7TZcg" \
+      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTI5MDE1MDR9.4KI9NoBM50WKILG7GJ_5o5sw4OO43KF5YnUb5-gcWvDic7Qs7VptLVl_dnv0JftHOgwimB91Z2U8A1hXE_jzHA" \
       -H "Content-Type: application/json" \
       -d '{ 
           	"title": "수정제목", 
@@ -203,7 +203,7 @@
 - 게시글 삭제
     ```
     curl -X DELETE http://15.164.138.207:8080/posts/1 \
-      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTIxMjI0MTF9.0JaANU0i5VimchvvmdoHwyCkFKUi-eBiqdXPbvmRxwhP01TwOoBjqzfIsqaIusgH7UyerLdP_pABjlF3d7TZcg"
+      -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTI5MDE1MDR9.4KI9NoBM50WKILG7GJ_5o5sw4OO43KF5YnUb5-gcWvDic7Qs7VptLVl_dnv0JftHOgwimB91Z2U8A1hXE_jzHA"
     ```
   
 # - API 명세(request/response 포함)
