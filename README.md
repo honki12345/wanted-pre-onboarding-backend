@@ -108,6 +108,8 @@
 
 # - 구현한 API 의 동작을 촬영한 데모 영상 링크
 
+- [링크](https://youtu.be/MK7GFkF3o3w)
+
 # - 구현 방법 및 이유에 대한 간략한 설명
 
 # - API 명세(request/response 포함)
