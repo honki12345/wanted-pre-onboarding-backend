@@ -106,6 +106,8 @@
 
 # - 데이터베이스 테이블 구조
 
+![erd](./document/erd.png)
+
 # - 구현한 API 의 동작을 촬영한 데모 영상 링크
 
 - [링크](https://youtu.be/MK7GFkF3o3w)
