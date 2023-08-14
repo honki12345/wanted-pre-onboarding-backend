@@ -13,11 +13,15 @@
 
     - Response
         - 상태코드: Created(201)
+        
     - Exception
-
+    
+        - Bad_Request(400): 이메일이나 비밀번호의 값이 올바르지 않는 경우
+    
+    
     <hr/>
 
-#### 로그인/로그아웃
+#### 로그인
 
 - 로그인 - `POST /session`
     - Request
@@ -35,6 +39,9 @@
 
     - Exception
 
+        - Bad_Request(400) 이메일이나 비밀번호의 값이 올바르지 않는 경우
+    
+    
     <hr/>
 
 #### 게시글
@@ -43,8 +50,10 @@
 
     - Request
 
+        - headers: {Authorization}
+
         - body: {Object}
-        
+
           | 이름    | 타입   | 필수 | 설명        |
           | ------- | ------ | ---- | ----------- |
           | title   | String | O    | 게시글 제목 |
@@ -56,7 +65,8 @@
 
     - Exception
 
-        - Unauthorized(401) {"message: blablablabal"}: 로그인 하지 않고 요청시
+        - Unauthorized(401): 로그인 하지 않고 요청시
+        - Bad_Request(400): 제목이나 내용의 값이 없는 경우
 
     <hr/>
 
@@ -75,10 +85,9 @@
 
     - Exception
 
-        - Unauthorized(401) {"message: blablablabal"}: 로그인 하지 않고 요청시
-
+    
   <hr/>
-
+  
 - 게시글 조회 - `GET /posts/{id}`
 
     - Request
@@ -95,7 +104,9 @@
           | content | String | O    | 게시물 내용 |
 
     - Exception
-        - Unauthorized(401) {"message: blablablabal"}: 로그인 하지 않고 요청시
+
+        - NotFound(404): 해당 게시글을 찾을 수 없습니다
+
 
     <hr/>
 
@@ -118,6 +129,11 @@
 
     - Exception
 
+        - Unauthorized(401): 로그인 하지 않고 요청시
+        - Forbidden(403): 권한이 없는 경우
+        - NotFound(404): 해당 게시글을 찾을 수 없습니다
+
+
     <hr />
 
 - 게시글 삭제 - `DELETE /posts/{id}`
@@ -127,7 +143,9 @@
     - Response
         - status: NoContent(204)
     - Exception
-
+        - NotFound(404): 해당 게시글을 찾을 수 없습니다
+    
+    
     <hr/>
     
     
