@@ -153,7 +153,7 @@
     curl -X POST http://15.164.138.207:8080/members \
       -H "Content-Type: application/json" \
       -d '{ 
-          	"email": "aaa@bbb.com", 
+          	"email": "ccc@ddd.com", 
             "pwd": "password" 
           }'
     ```
@@ -163,7 +163,7 @@
     curl -X POST http://15.164.138.207:8080/session \
       -H "Content-Type: application/json" \
       -d '{ 
-          	"email": "aaa@bbb.com", 
+          	"email": "ccc@ddd.com", 
             "pwd": "password" 
           }'
     ```
@@ -186,12 +186,12 @@
 
 - 게시글 상세조회
     ```
-    curl -X GET http://15.164.138.207:8080/posts/1
+    curl -X GET http://15.164.138.207:8080/posts/2
     ```
 
 - 게시글 수정
     ```
-    curl -X PATCH http://15.164.138.207:8080/posts/1 \
+    curl -X PATCH http://15.164.138.207:8080/posts/2 \
       -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTI5MDE1MDR9.4KI9NoBM50WKILG7GJ_5o5sw4OO43KF5YnUb5-gcWvDic7Qs7VptLVl_dnv0JftHOgwimB91Z2U8A1hXE_jzHA" \
       -H "Content-Type: application/json" \
       -d '{ 
@@ -202,7 +202,7 @@
 
 - 게시글 삭제
     ```
-    curl -X DELETE http://15.164.138.207:8080/posts/1 \
+    curl -X DELETE http://15.164.138.207:8080/posts/2 \
       -H "Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAYmJiLmNvbSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2OTI5MDE1MDR9.4KI9NoBM50WKILG7GJ_5o5sw4OO43KF5YnUb5-gcWvDic7Qs7VptLVl_dnv0JftHOgwimB91Z2U8A1hXE_jzHA"
     ```
   
